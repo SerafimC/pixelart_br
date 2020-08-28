@@ -1,6 +1,7 @@
-var mesh_size = 10
+var mesh_size = 100
 var show_mesh = true
 var color_selected = "red"
+var changes_history = []
 
 function startGame() {
     drawArea.start();
@@ -26,6 +27,7 @@ var drawArea = {
 var dm = drawMesh()
 var mesh = dm.mesh
 var drawMesh = dm.draw_mesh
+changes_history.push(clone_array(drawMesh))
 
 function component(width, height, color, x, y, type) {
     this.x = x;
@@ -89,6 +91,7 @@ function drawMesh() {
 }
 
 function paint(x, y, color) {
+    changes_history.push(clone_array(drawMesh))
     for (dm in drawMesh) {
         for (dmi in drawMesh[dm]) {
             if (dm == x && dmi == y) {
@@ -106,6 +109,21 @@ function showHideMesh() {
     }
 }
 
+function clearDraw() {
+    changes_history.push(clone_array(drawMesh))
+    for (dm in drawMesh) {
+        for (dmi in drawMesh[dm]) {
+            drawMesh[dm][dmi].setColor("white")
+        }
+    }
+}
+
+function backStep() {
+    drawMesh = clone_array(changes_history[changes_history.length - 1])
+    console.log(changes_history)
+    changes_history.pop()
+}
+
 function changeColor() {
     color_selected = document.getElementById("color").value;
 }
@@ -116,7 +134,20 @@ function printOnClick(event) {
     pixel_x = Math.trunc((event.clientX - rect.left) / mesh_size)
     pixel_y = Math.trunc((event.clientY - rect.top) / mesh_size)
 
-    paint(pixel_x, pixel_y, color_selected)
+    if ((event.clientX - rect.left) < drawArea.width && event.clientY < drawArea.height) {
+        paint(pixel_x, pixel_y, color_selected)
+    }
+
+}
+
+function clone_array(array) {
+    cln_arr = new Array()
+    for (i in array) {
+        cln_arr.push([])
+        for (j in array[i])
+            cln_arr[i].push(Object.assign({}, array[i][j]))
+    }
+    return cln_arr
 }
 
 document.addEventListener("click", printOnClick);
