@@ -1,0 +1,9 @@
+.body_st {
+    text-align: center;
+}
+
+#mdiv #toolpalet {
+    border: 2px solid red;
+    width: 500px;
+    display: inline;
+}

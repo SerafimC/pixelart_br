@@ -3,6 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./static/style.css">
     <h3> Pixel art BR</h3>
     <style>
         canvas {
@@ -12,12 +13,17 @@
     </style>
 </head>
 
-<body onload="startGame()">
+<body class="body_st" onload="startGame()">
     <script type="text/javascript" src="./static/pixelartbr.js"></script>
-    <!-- <div style="border: 2px solid red">a</div> -->
-    color: <input id='color' type="text" value='red'>
-    <button onclick="changeColor()">ok</button>
-    <button onclick="showHideMesh()">Mostrar/ Ocultar Malha</button>
+    <div id="mdiv">
+        <spam></spam>
+    </div>
+    <div id="toolpalet">
+        color: <input id='color' type="text" value='red'>
+        <button onclick="changeColor()">ok</button>
+        <button onclick="showHideMesh()">Mostrar/ Ocultar Malha</button>
+    </div>
+
 </body>
 
 </html>
