@@ -1,4 +1,4 @@
-var mesh_size = 100
+var mesh_size = 10
 var show_mesh = true
 var color_selected = "red"
 var changes_history = []
