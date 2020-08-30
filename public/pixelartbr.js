@@ -56,7 +56,7 @@ var colorPalet = {
 }
 
 var drawArea = {
-    width: 500,
+    width: 1000,
     height: 300,
     canvas: document.createElement("canvas"),
     start: function() {
@@ -173,6 +173,7 @@ function backStep() {
 
 function changeColor(color) {
     color_selected = (typeof color !== 'undefined') ? color : document.getElementById("color").value;
+    document.getElementById("color").value = color_selected;
 }
 
 function printOnClick(event) {
