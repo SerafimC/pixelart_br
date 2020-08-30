@@ -1,6 +1,6 @@
 var mesh_size = 10
 var show_mesh = true
-var color_selected = "red"
+var color_selected = "black"
 var changes_history = []
 var mousedownID = -1; //Global ID of mouse down interval
 var mouseisdown = false
@@ -19,8 +19,7 @@ var colorPalet = {
             for (green1 = 0; green1 < 6; green1 += this.interval) {
                 for (blue1 = 0; blue1 < 6; blue1 += this.interval) {
                     color_ac = hexTransl(red1) + '' + hexTransl(red1) + '' + hexTransl(green1) + '' + hexTransl(green1) + '' + hexTransl(blue1) + '' + hexTransl(blue1)
-                    console.log('.')
-                    colorPalet_html += '<td><button style="background-color: #' + color_ac + ';"' +
+                    colorPalet_html += '<td id="' + color_ac + '"><button style="background-color: #' + color_ac + ';"' +
                         'onclick=changeColor(' + "'#" + color_ac + "')" + '> </button></td>'
                 }
             }
@@ -31,7 +30,6 @@ var colorPalet = {
             for (blue1 = 0; blue1 < 6; blue1 += this.interval) {
                 for (red1 = 0; red1 < 6; red1 += this.interval) {
                     color_ac = hexTransl(red1) + '' + hexTransl(red1) + '' + hexTransl(green1) + '' + hexTransl(green1) + '' + hexTransl(blue1) + '' + hexTransl(blue1)
-                    console.log('.')
                     colorPalet_html += '<td><button style="background-color: #' + color_ac + ';"' +
                         'onclick=changeColor(' + "'#" + color_ac + "')" + '> </button></td>'
                 }
@@ -43,7 +41,6 @@ var colorPalet = {
             for (red1 = 0; red1 < 6; red1 += this.interval) {
                 for (green1 = 0; green1 < 6; green1 += this.interval) {
                     color_ac = hexTransl(red1) + '' + hexTransl(red1) + '' + hexTransl(green1) + '' + hexTransl(green1) + '' + hexTransl(blue1) + '' + hexTransl(blue1)
-                    console.log('.')
                     colorPalet_html += '<td><button style="background-color: #' + color_ac + ';"' +
                         'onclick=changeColor(' + "'#" + color_ac + "')" + '> </button></td>'
                 }
@@ -56,7 +53,7 @@ var colorPalet = {
 }
 
 var drawArea = {
-    width: 1000,
+    width: 700,
     height: 300,
     canvas: document.createElement("canvas"),
     start: function() {
@@ -172,18 +169,10 @@ function backStep() {
 }
 
 function changeColor(color) {
-    color_selected = (typeof color !== 'undefined') ? color : document.getElementById("color").value;
-    document.getElementById("color").value = color_selected;
-}
-
-function printOnClick(event) {
-    var rect = drawArea.canvas.getBoundingClientRect()
-
-    pixel_x = Math.trunc((event.clientX - rect.left) / mesh_size)
-    pixel_y = Math.trunc((event.clientY - rect.top) / mesh_size)
-
-    if ((event.clientX - rect.left) < drawArea.width && (event.clientY - rect.top) < drawArea.height) {
-        paint(pixel_x, pixel_y, color_selected)
+    try { document.getElementById(color_selected.replace('#', '')).style.border = "1px solid #dddddd" } finally {
+        color_selected = (typeof color !== 'undefined') ? color : document.getElementById("color").value;
+        document.getElementById("color").value = color_selected;
+        document.getElementById(color_selected.replace('#', '')).style.border = "2px solid black"
     }
 
 }
@@ -197,55 +186,3 @@ function clone_array(array) {
     }
     return cln_arr
 }
-
-function mousedown(event) {
-    if (mousedownID == -1) { //Prevent multimple loops!
-        mousedownID = 1
-        mouseisdown = true
-    }
-}
-
-function mouseup(event) {
-    if (mousedownID != -1) { //Only stop if exists
-        clearInterval(mousedownID);
-        mousedownID = -1;
-        mouseisdown = false
-    }
-}
-document.onmousemove = handleMouseMove;
-
-function handleMouseMove(event) {
-    var dot, eventDoc, doc, body, pageX, pageY;
-
-    event = event || window.event; // IE-ism
-
-    if (event.pageX == null && event.clientX != null) {
-        eventDoc = (event.target && event.target.ownerDocument) || document;
-        doc = eventDoc.documentElement;
-        body = eventDoc.body;
-
-        event.pageX = event.clientX +
-            (doc && doc.scrollLeft || body && body.scrollLeft || 0) -
-            (doc && doc.clientLeft || body && body.clientLeft || 0);
-        event.pageY = event.clientY +
-            (doc && doc.scrollTop || body && body.scrollTop || 0) -
-            (doc && doc.clientTop || body && body.clientTop || 0);
-    }
-
-    if (mouseisdown) {
-        var rect = drawArea.canvas.getBoundingClientRect()
-        if ((event.pageX - rect.left) < drawArea.width && (event.pageY - rect.top) < drawArea.height) {
-            pixel_x = Math.trunc((event.pageX - rect.left) / mesh_size)
-            pixel_y = Math.trunc((event.pageY - rect.top) / mesh_size)
-            paint(pixel_x, pixel_y, color_selected)
-        }
-    }
-
-}
-
-document.addEventListener("click", printOnClick);
-//Assign events
-document.addEventListener("mousedown", mousedown);
-document.addEventListener("mouseup", mouseup);
-//Also clear the interval when user leaves the window with mouse
-// document.addEventListener("mouseout", mouseup);

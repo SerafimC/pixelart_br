@@ -56,3 +56,10 @@ button {
     /* margin: 4px 2px; */
     cursor: pointer;
 }
+
+#sourcecode {
+    text-align: left;
+    font-size: 10px;
+    background-color: #ebebeb;
+    padding: 1px;
+}
