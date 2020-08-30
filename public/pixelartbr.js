@@ -7,6 +7,28 @@ var mouseisdown = false
 
 function startGame() {
     drawArea.start();
+    colorPalet.draw();
+}
+
+var colorPalet = {
+    interval: 1,
+    draw: function() {
+        colorPalet_html = '<table>'
+        for (red1 = 0; red1 < 6; red1 += this.interval) {
+            colorPalet_html += '<tr>'
+            for (green1 = 0; green1 < 6; green1 += this.interval) {
+                for (blue1 = 0; blue1 < 6; blue1 += this.interval) {
+                    color_ac = hexTransl(red1) + '' + hexTransl(red1) + '' + hexTransl(green1) + '' + hexTransl(green1) + '' + hexTransl(blue1) + '' + hexTransl(blue1)
+                    console.log('.')
+                    colorPalet_html += '<td><button style="background-color: #' + color_ac + ';"' +
+                        'onclick=changeColor(' + "'#" + color_ac + "')" + '> </button></td>'
+                }
+            }
+            colorPalet_html += '</tr>'
+        }
+        colorPalet_html += '</table>'
+        $('#colorpalet').html(colorPalet_html).show()
+    }
 }
 
 var drawArea = {
@@ -125,8 +147,8 @@ function backStep() {
     changes_history.pop()
 }
 
-function changeColor() {
-    color_selected = document.getElementById("color").value;
+function changeColor(color) {
+    color_selected = (typeof color !== 'undefined') ? color : document.getElementById("color").value;
 }
 
 function printOnClick(event) {
