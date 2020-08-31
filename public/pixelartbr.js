@@ -25,28 +25,7 @@ var colorPalet = {
             }
             colorPalet_html += '</tr>'
         }
-        for (green1 = 0; green1 < 6; green1 += this.interval) {
-            colorPalet_html += '<tr>'
-            for (blue1 = 0; blue1 < 6; blue1 += this.interval) {
-                for (red1 = 0; red1 < 6; red1 += this.interval) {
-                    color_ac = hexTransl(red1) + '' + hexTransl(red1) + '' + hexTransl(green1) + '' + hexTransl(green1) + '' + hexTransl(blue1) + '' + hexTransl(blue1)
-                    colorPalet_html += '<td><button style="background-color: #' + color_ac + ';"' +
-                        'onclick=changeColor(' + "'#" + color_ac + "')" + '> </button></td>'
-                }
-            }
-            colorPalet_html += '</tr>'
-        }
-        for (blue1 = 0; blue1 < 6; blue1 += this.interval) {
-            colorPalet_html += '<tr>'
-            for (red1 = 0; red1 < 6; red1 += this.interval) {
-                for (green1 = 0; green1 < 6; green1 += this.interval) {
-                    color_ac = hexTransl(red1) + '' + hexTransl(red1) + '' + hexTransl(green1) + '' + hexTransl(green1) + '' + hexTransl(blue1) + '' + hexTransl(blue1)
-                    colorPalet_html += '<td><button style="background-color: #' + color_ac + ';"' +
-                        'onclick=changeColor(' + "'#" + color_ac + "')" + '> </button></td>'
-                }
-            }
-            colorPalet_html += '</tr>'
-        }
+
         colorPalet_html += '</table>'
         $('#colorpalet').html(colorPalet_html).show()
     }
@@ -137,6 +116,7 @@ function drawMesh() {
 
 function paint(x, y, color) {
     changes_history.push(clone_array(drawMesh))
+    console.log(changes_history.length)
     for (dm in drawMesh) {
         for (dmi in drawMesh[dm]) {
             if (dm == x && dmi == y) {
@@ -165,7 +145,8 @@ function clearDraw() {
 
 function backStep() {
     drawMesh = clone_array(changes_history[changes_history.length - 1])
-    changes_history.pop()
+    if (changes_history.length > 0)
+        changes_history.pop()
 }
 
 function changeColor(color) {

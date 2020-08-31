@@ -1,3 +1,6 @@
+var pixel_x_prev = -1
+var pixel_y_prev = -1
+
 function mousedown(event) {
     if (mousedownID == -1) { //Prevent multimple loops!
         mousedownID = 1
@@ -49,7 +52,10 @@ function printOnClick(event) {
     pixel_x = Math.trunc((event.clientX - rect.left) / mesh_size)
     pixel_y = Math.trunc((event.clientY - rect.top) / mesh_size)
 
-    if ((event.clientX - rect.left) < drawArea.width && (event.clientY - rect.top) < drawArea.height) {
+    if ((event.clientX - rect.left) < drawArea.width && (event.clientY - rect.top) < drawArea.height &&
+        (pixel_x != pixel_x_prev || pixel_y != pixel_y_prev)) {
+        pixel_x_prev = pixel_x
+        pixel_y_prev = pixel_y
         paint(pixel_x, pixel_y, color_selected)
     }
 
