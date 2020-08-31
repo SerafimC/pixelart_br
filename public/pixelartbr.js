@@ -14,6 +14,13 @@ var colorPalet = {
     interval: 1,
     draw: function() {
         colorPalet_html = '<table>'
+        colorPalet_html += '<tr>'
+        for (red1 = 0; red1 < 6; red1 += this.interval) {
+            color_ac = hexTransl(red1) + '' + hexTransl(red1) + '' + hexTransl(red1) + '' + hexTransl(red1) + '' + hexTransl(red1) + '' + hexTransl(red1)
+            colorPalet_html += '<td id="' + color_ac + '"><button style="background-color: #' + color_ac + ';"' +
+                'onclick=changeColor(' + "'#" + color_ac + "')" + '> </button></td>'
+        }
+        colorPalet_html += '</tr>'
         for (red1 = 0; red1 < 6; red1 += this.interval) {
             colorPalet_html += '<tr>'
             for (green1 = 0; green1 < 6; green1 += this.interval) {
@@ -116,7 +123,6 @@ function drawMesh() {
 
 function paint(x, y, color) {
     changes_history.push(clone_array(drawMesh))
-    console.log(changes_history.length)
     for (dm in drawMesh) {
         for (dmi in drawMesh[dm]) {
             if (dm == x && dmi == y) {
